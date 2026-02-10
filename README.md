@@ -24,7 +24,7 @@ To balance high-frequency writes with fast dashboard reads, I implemented a spli
 ### 2. Polymorphic Ingestion
 The `IngestionService` handles two distinct telemetry streams via a single pipeline.
 *   **Transactions**: A database transaction ensures atomicity. If the "Cold" insert succeeds but the "Hot" update fails, the entire operation rolls back to maintain consistency.
-*   **Strict Compliance**: The system uses a `smart_meter_mapping` table to resolve `meterId` to `vehicleId`, ensuring the ingestion API remains strictly compliant with the hardware payload definition (which does not report vehicle identity directly).
+*   **Data Correlation Strategy**: The system uses a `smart_meter_mapping` table to resolve `meterId` to `vehicleId`. This ensures the ingestion API remains strictly compliant with the hardware payload definition (which does not report vehicle identity directly) while correctly linking the two data streams for analytics.
 
 ### 3. Analytics Performance
 The `GET /analytics/performance/:vehicleId` endpoint allows fleet operators to analyze efficiency (DC Delivered / AC Consumed).
